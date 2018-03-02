@@ -1,3 +1,4 @@
+
 //
 //  HMSegmentedControl.h
 //  HMSegmentedControl
@@ -23,7 +24,7 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlSelectionStyle) {
 typedef NS_ENUM(NSInteger, HMSegmentedControlSelectionIndicatorLocation) {
     HMSegmentedControlSelectionIndicatorLocationUp,
     HMSegmentedControlSelectionIndicatorLocationDown,
-	HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
+    HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
 };
 
 typedef NS_ENUM(NSInteger, HMSegmentedControlSegmentWidthStyle) {
@@ -46,22 +47,20 @@ enum {
 typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
     HMSegmentedControlTypeText,
     HMSegmentedControlTypeImages,
-	HMSegmentedControlTypeTextImages
+    HMSegmentedControlTypeTextImages
 };
 
-typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
-    HMSegmentedControlImagePositionBehindText,
-    HMSegmentedControlImagePositionLeftOfText,
-    HMSegmentedControlImagePositionRightOfText,
-    HMSegmentedControlImagePositionAboveText,
-    HMSegmentedControlImagePositionBelowText
-};
+@interface HMScrollView : UIScrollView
+    
+@end
 
 @interface HMSegmentedControl : UIControl
 
-@property (nonatomic, strong) NSArray<NSString *> *sectionTitles;
-@property (nonatomic, strong) NSArray<UIImage *> *sectionImages;
-@property (nonatomic, strong) NSArray<UIImage *> *sectionSelectedImages;
+@property (nonatomic, strong) NSArray *sectionTitles;
+@property (nonatomic, strong) NSArray *sectionImages;
+@property (nonatomic, strong) NSArray *sectionSelectedImages;
+@property (nonatomic, strong) HMScrollView *scrollView;
+
 
 /**
  Provide a block to be executed when selected index is changed.
@@ -97,18 +96,11 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 @property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
- Color for the selection indicator stripe
+ Color for the selection indicator stripe/box
  
  Default is `R:52, G:181, B:229`
  */
 @property (nonatomic, strong) UIColor *selectionIndicatorColor UI_APPEARANCE_SELECTOR;
-
-/**
- Color for the selection indicator box
- 
- Default is selectionIndicatorColor
- */
-@property (nonatomic, strong) UIColor *selectionIndicatorBoxColor UI_APPEARANCE_SELECTOR;
 
 /**
  Color for the vertical divider between segments.
@@ -167,20 +159,6 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 @property (nonatomic, assign) HMSegmentedControlBorderType borderType;
 
 /**
- Specifies the image position relative to the text. Only applicable for HMSegmentedControlTypeTextImages
- 
- Default is `HMSegmentedControlImagePositionBehindText`
- */
-@property (nonatomic) HMSegmentedControlImagePosition imagePosition;
-
-/**
- Specifies the distance between the text and the image. Only applicable for HMSegmentedControlTypeTextImages
- 
- Default is `0,0`
- */
-@property (nonatomic) CGFloat textImageSpacing;
-
-/**
  Specifies the border color.
  
  Default is `[UIColor blackColor]`
@@ -209,8 +187,6 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
  */
 @property(nonatomic, getter = isVerticalDividerEnabled) BOOL verticalDividerEnabled;
 
-@property (nonatomic, getter=shouldStretchSegmentsToScreenSize) BOOL stretchSegmentsToScreenSize;
-
 /**
  Index of the currently selected segment.
  */
@@ -232,9 +208,9 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
  When HMSegmentedControlSelectionIndicatorLocationDown is selected, top edge insets are not used
  
  Defaults are top: 0.0f
-             left: 0.0f
-           bottom: 0.0f
-            right: 0.0f
+ left: 0.0f
+ bottom: 0.0f
+ right: 0.0f
  */
 @property (nonatomic, readwrite) UIEdgeInsets selectionIndicatorEdgeInsets;
 
@@ -247,16 +223,38 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 
 @property (nonatomic, readwrite) UIEdgeInsets enlargeEdgeInset;
 
+
 /**
  Default is YES. Set to NO to disable animation during user selection.
  */
 @property (nonatomic) BOOL shouldAnimateUserSelection;
 
-- (id)initWithSectionTitles:(NSArray<NSString *> *)sectiontitles;
-- (id)initWithSectionImages:(NSArray<UIImage *> *)sectionImages sectionSelectedImages:(NSArray<UIImage *> *)sectionSelectedImages;
-- (instancetype)initWithSectionImages:(NSArray<UIImage *> *)sectionImages sectionSelectedImages:(NSArray<UIImage *> *)sectionSelectedImages titlesForSections:(NSArray<NSString *> *)sectiontitles;
+- (id)initWithSectionTitles:(NSArray *)sectiontitles;
+- (id)initWithSectionImages:(NSArray *)sectionImages sectionSelectedImages:(NSArray *)sectionSelectedImages;
+- (instancetype)initWithSectionImages:(NSArray *)sectionImages sectionSelectedImages:(NSArray *)sectionSelectedImages titlesForSections:(NSArray *)sectiontitles;
 - (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated;
 - (void)setIndexChangeBlock:(IndexChangeBlock)indexChangeBlock;
 - (void)setTitleFormatter:(HMTitleFormatterBlock)titleFormatter;
+- (void)setShowSpot:(NSUInteger)index isShow:(BOOL)isShow;
+
+#pragma mark - zxl modified
+/**
+ IndicatorSize
+ */
+@property (nonatomic, assign) CGSize fixedIndicatorSize;
+/**
+ IndicatorBottomOffSet
+ */
+@property (nonatomic, assign) CGFloat fixedIndicatorBottomOffset;
+/**
+ IndicatorTopOffSet
+ */
+@property (nonatomic, assign) CGFloat fixedIndicatorTopOffset;
+/**
+ gradientLayer
+ */
+@property (nonatomic, strong) CAGradientLayer* gradientLayer;
 
 @end
+
+
