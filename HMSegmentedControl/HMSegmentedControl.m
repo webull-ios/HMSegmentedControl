@@ -194,16 +194,16 @@
 }
 
 - (void)updateSegmentWidthStyle {
-    if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic) {
-        CGFloat totalWidth = 0;
-        for(int i = 0; i < _sectionTitles.count; i++) {
-            CGFloat stringWidth = [self measureTitleAtIndex:i].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
-            totalWidth += stringWidth;
-        }
-        if (totalWidth < self.bounds.size.width) {
-            self.segmentWidthStyle = HMSegmentedControlSegmentWidthStyleFixed;
-            self.sectionTitles = self.sectionTitles;
-        }
+    
+    CGFloat totalWidth = 0;
+    for(int i = 0; i < _sectionTitles.count; i++) {
+        CGFloat stringWidth = [self measureTitleAtIndex:i].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
+        totalWidth += stringWidth;
+    }
+    if (totalWidth < self.bounds.size.width) {
+        self.segmentWidthStyle = HMSegmentedControlSegmentWidthStyleFixed;
+    } else {
+        self.segmentWidthStyle = HMSegmentedControlSegmentWidthStyleDynamic;
     }
 }
 
