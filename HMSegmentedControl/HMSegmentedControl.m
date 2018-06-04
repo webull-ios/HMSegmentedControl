@@ -229,13 +229,18 @@
 
 - (void)setSegmentWidthStyle:(HMSegmentedControlSegmentWidthStyle)segmentWidthStyle {
     // Force HMSegmentedControlSegmentWidthStyleFixed when type is HMSegmentedControlTypeImages.
+    
+    BOOL changed = segmentWidthStyle != _segmentWidthStyle;
+    
     if (self.type == HMSegmentedControlTypeImages) {
         _segmentWidthStyle = HMSegmentedControlSegmentWidthStyleFixed;
     } else {
         _segmentWidthStyle = segmentWidthStyle;
     }
     
-    [self updateSegmentWidthStyle];
+    if (changed) {
+        [self updateSegmentWidthStyle];
+    }
 }
 
 - (void)setBorderType:(HMSegmentedControlBorderType)borderType {
