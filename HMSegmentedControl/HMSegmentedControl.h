@@ -255,6 +255,11 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
  */
 @property (nonatomic, strong) CAGradientLayer* gradientLayer;
 
+/**
+是否动态设置widthStyle
+ */
+@property (nonatomic, assign) BOOL autoAdjustWidthStyle;
+
 @end
 
 

@@ -195,6 +195,10 @@
 
 - (void)updateSegmentWidthStyle {
     
+    if (self.autoAdjustWidthStyle != YES) {
+        return;
+    }
+    
     CGFloat totalWidth = 0;
     for(int i = 0; i < _sectionTitles.count; i++) {
         CGFloat stringWidth = [self measureTitleAtIndex:i].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
