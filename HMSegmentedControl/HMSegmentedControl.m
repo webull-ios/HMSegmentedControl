@@ -125,7 +125,7 @@
     self.segmentWidth = 0.0f;
     [self commonInit];
     
-    self.autoAdjustWidthStyle = NO;
+    self.autoAdjustWidthStyle = YES;
 }
 
 - (void)commonInit {
