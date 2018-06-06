@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSMutableArray *spotLayers;
 @property (nonatomic, strong) NSMutableArray *spotMap;
 
+@property (nonatomic, assign) BOOL needReCalculate;
+
 @end
 
 @implementation HMScrollView
@@ -124,11 +126,12 @@
     
     self.segmentWidth = 0.0f;
     [self commonInit];
-    
-    self.autoAdjustWidthStyle = YES;
 }
 
 - (void)commonInit {
+    
+    self.autoAdjustWidthStyle = YES;
+    
     self.scrollView = [[HMScrollView alloc] init];
     self.scrollView.scrollsToTop = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -178,6 +181,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    [self updateSegmentWidthStyle];
     [self updateSegmentsRects];
 }
 
@@ -190,16 +194,18 @@
 - (void)setSectionTitles:(NSArray *)sectionTitles {
     _sectionTitles = sectionTitles;
     
-    [self updateSegmentWidthStyle];
+    self.needReCalculate = YES;
     
     [self setNeedsLayout];
 }
 
 - (void)updateSegmentWidthStyle {
     
-    if (self.autoAdjustWidthStyle != YES) {
+    if (self.autoAdjustWidthStyle != YES || self.needReCalculate != YES) {
         return;
     }
+    
+    self.needReCalculate = NO;
     
     CGFloat totalWidth = 0;
     for(int i = 0; i < _sectionTitles.count; i++) {
@@ -235,7 +241,7 @@
 
 - (void)setSegmentWidthStyle:(HMSegmentedControlSegmentWidthStyle)segmentWidthStyle {
     // Force HMSegmentedControlSegmentWidthStyleFixed when type is HMSegmentedControlTypeImages.
-    
+
     BOOL changed = segmentWidthStyle != _segmentWidthStyle;
     
     if (self.type == HMSegmentedControlTypeImages) {
@@ -245,7 +251,7 @@
     }
     
     if (changed) {
-        [self updateSegmentWidthStyle];
+        self.needReCalculate = YES;
     }
 }
 
